@@ -1,8 +1,10 @@
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 
 from src.controllers import PostController
+from src.dependencies.auth_dependencies import get_current_user
 from src.dependencies.controllers_dependencies import get_post_controller
 from src.schemas.data_transfer_objects import PostFullDto
 
@@ -39,6 +41,7 @@ async def get_post_by_id(
 async def create_post(
     post: PostFullDto,
     controller: Annotated[PostController, Depends(get_post_controller)],
+    current_user=Depends(get_current_user),
 ):
     return await controller.create_post(post)
 
@@ -48,6 +51,7 @@ async def update_post(
     post_id: Annotated[int, Path(ge=1)],
     post: PostFullDto,
     controller: Annotated[PostController, Depends(get_post_controller)],
+    current_user=Depends(get_current_user),
 ):
     result = await controller.update_post(post_id, post)
     if result is None:
@@ -62,6 +66,7 @@ async def update_post(
 async def delete_post(
     post_id: Annotated[int, Path(ge=1)],
     controller: Annotated[PostController, Depends(get_post_controller)],
+    current_user=Depends(get_current_user),
 ):
     deleted = await controller.delete_post(post_id)
     if not deleted:

@@ -1,17 +1,19 @@
+
 from fastapi import FastAPI
 from uvicorn import run
 
-from src.routers import post_router, user_router
+from src.routers import auth_router, post_router, user_router
 
 
 app = FastAPI(
     title='My Blog API',
-    description='API для управления публикациями и пользователями',
-    version='3.0.0',
+    description='API для управления публикациями, пользователями и авторизацией',
+    version='4.0.0',
 )
 
 app.include_router(post_router)
 app.include_router(user_router)
+app.include_router(auth_router)
 
 
 @app.get('/')
@@ -21,7 +23,7 @@ async def hello_world():
 
 @app.get('/about')
 async def about_page():
-    return {'name': 'Мой блог', 'version': '3.0'}
+    return {'name': 'Мой блог', 'version': '4.0'}
 
 
 def main():

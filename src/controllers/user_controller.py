@@ -1,6 +1,7 @@
 
 from src.repositories import UserRepository
 from src.schemas.data_transfer_objects import UserFullDto
+from src.utils.common_utils import CommonUtils
 
 
 class UserController:
@@ -15,10 +16,12 @@ class UserController:
 
     async def create_user(self, user: UserFullDto):
         user.id = None
+        user.password = CommonUtils.hash_password(user.password)
         return await self.repository.upsert(user)
 
     async def update_user(self, user_id: int, user: UserFullDto):
         user.id = user_id
+        user.password = CommonUtils.hash_password(user.password)
         return await self.repository.upsert(user)
 
     async def delete_user(self, user_id: int):
