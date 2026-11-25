@@ -8,7 +8,13 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from settings import app_settings
-from src.models import Base, UserModel, PostModel
+from src.models import (
+    Base,
+    UserModel,
+    PostModel,
+    RefreshTokenModel,
+    AccessTokenModel,
+)
 
 
 config = context.config

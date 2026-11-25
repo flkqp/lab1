@@ -1,3 +1,5 @@
+
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.models import UserModel
@@ -17,3 +19,13 @@ class UserRepository(
             full_schema_type=UserFullDto,
             short_schema_type=UserFullDto,
         )
+
+    async def get_user_by_login(self, login: str):
+        """Получает пользователя по логину."""
+        statement = select(UserModel).where(
+            UserModel.login == login,
+            UserModel.is_deleted.is_(False),
+        )
+
+        result = await self._async_db_session.scalars(statement)
+        return result.first()
