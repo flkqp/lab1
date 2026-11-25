@@ -1,18 +1,11 @@
-
 from fastapi import FastAPI
 
-app = FastAPI(
-    title="Blog API",
-    description="API для блога",
-    version="1.0.0"
-)
-
+app = FastAPI()
 
 @app.get("/")
-def root():
-    return {"message": "Welcome to Blog API"}
+def hello_world():
+    return {"message": "Привет, мир!"}
 
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+@app.get("/about")
+def about_page():
+    return {"name": "Мой блог", "version": "1.0"}

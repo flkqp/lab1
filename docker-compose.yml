@@ -1,0 +1,13 @@
+services:
+  blog-api:
+    build: .
+    image: blog-api-image
+    container_name: blog-api
+    ports:
+      - "8000:8000"
+    networks:
+      - blog-network
+
+networks:
+  blog-network:
+    driver: bridge
