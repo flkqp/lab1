@@ -2,16 +2,21 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from src.controllers import PostController
-from src.repositories import PostRepository
-
-from .repositories_dependencies import get_post_repository
+from src.controllers import PostController, UserController
+from src.repositories import PostRepository, UserRepository
+from .repositories_dependencies import (
+    get_post_repository,
+    get_user_repository,
+)
 
 
 async def get_post_controller(
-    post_repository: Annotated[
-        PostRepository,
-        Depends(get_post_repository),
-    ],
+    repository: Annotated[PostRepository, Depends(get_post_repository)],
 ) -> PostController:
-    return PostController(post_repository=post_repository)
+    return PostController(repository)
+
+
+async def get_user_controller(
+    repository: Annotated[UserRepository, Depends(get_user_repository)],
+) -> UserController:
+    return UserController(repository)

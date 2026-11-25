@@ -1,14 +1,20 @@
-from typing import List
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from src.schemas.data_transfer_objects import PostFullDto
-
-
-posts = [
-    PostFullDto(id=1, author_name='Bob', content='52'),
-    PostFullDto(id=2, author_name='Billy', content='67'),
-    PostFullDto(id=3, author_name='John', content='Lorem ipsum'),
-]
+from settings import app_settings
+from .common_factories import get_sqlalchemy_async_session_generator
 
 
-async def get_posts() -> List[PostFullDto]:
-    return posts
+db_engine = create_async_engine(
+    app_settings.SQL_DSN,
+    echo=True,
+    pool_pre_ping=True,
+)
+
+async_session_factory = async_sessionmaker(
+    bind=db_engine,
+    expire_on_commit=False,
+)
+
+sqlalchemy_async_session_generator = (
+    get_sqlalchemy_async_session_generator(async_session_factory)
+)

@@ -1,28 +1,13 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import Field
+from src.schemas.common import MixinIdSchema, MixinSoftDeleteSchema
 
-from src.schemas.common import BaseSchema
 
+class PostFullDto(MixinIdSchema, MixinSoftDeleteSchema):
+    """Полный DTO поста."""
 
-class PostFullDto(BaseSchema):
-    """
-    Полный DTO постов.
-    """
-
-    id: Optional[int] = Field(
-        description='ID поста',
-        default=None,
-        ge=1,
-        examples=[1],
-    )
-
-    author_name: str = Field(
-        description='Имя автора поста',
-        examples=['Author'],
-    )
-
-    content: str = Field(
-        description='Текстовое содержание поста',
-        examples=['Post content'],
-    )
+    name: str = Field(description='Название поста', examples=['My first post'])
+    content: str = Field(description='Содержание поста', examples=['Post content'])
+    created_at: Optional[datetime] = None

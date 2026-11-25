@@ -1,9 +1,17 @@
-from .common_dependencies import get_posts
-from .repositories_dependencies import get_post_repository
-from .controllers_dependencies import get_post_controller
+from .common_dependencies import (
+    db_engine,
+    async_session_factory,
+    sqlalchemy_async_session_generator,
+)
+from .repositories_dependencies import (
+    get_post_repository,
+    get_user_repository,
+)
 
 __all__ = [
-    "get_posts",
-    "get_post_repository",
-    "get_post_controller",
+    'db_engine',
+    'async_session_factory',
+    'sqlalchemy_async_session_generator',
+    'get_post_repository',
+    'get_user_repository',
 ]
